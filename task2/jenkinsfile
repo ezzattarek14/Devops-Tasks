@@ -1,0 +1,45 @@
+pipeline {
+    agent any
+
+    environment {
+        IMAGE_NAME = "spring-petclinic"
+        IMAGE_TAG  = "latest"
+        REGISTRY   = "localhost:8083"
+    }
+
+    stages {
+        stage('Run Container') {
+            steps {
+                script {
+                   
+                    sh "docker run -d --name petclinic -p 8082:8080 ${IMAGE_NAME}:${IMAGE_TAG}"
+                }
+            }
+        }
+
+        stage('Push to Nexus') {
+            steps {
+                script {
+                    sh """
+                        docker tag ${IMAGE_NAME}:${IMAGE_TAG} ${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}
+                        echo 'Logging in to Nexus...'
+                        docker login localhost:8083 -u admin -p 88481f4d-266c-4d76-b79a-e4e42c7dfe4f
+                        docker push ${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}
+                    """
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'Pipeline finished!'
+        }
+        failure {
+            echo 'Pipeline failed ❌'
+        }
+        success {
+            echo 'Pipeline succeeded ✅'
+        }
+    }
+}
