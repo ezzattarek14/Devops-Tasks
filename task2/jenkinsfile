@@ -32,7 +32,7 @@ stage('SonarQube Analysis') {
                     sh """
                         docker tag ${IMAGE_NAME}:${IMAGE_TAG} ${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}
                         echo 'Logging in to Nexus...'
-                        docker login localhost:8083 -u admin -p 88481f4d-266c-4d76-b79a-e4e42c7dfe4fs
+                        docker login localhost:8083 -u admin -p 80d2e66b-8d40-402f-9612-6c12e1cb6a1d
                         docker push ${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}
                     """
                 }
