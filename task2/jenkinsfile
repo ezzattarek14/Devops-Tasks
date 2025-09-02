@@ -11,6 +11,7 @@ stage('SonarQube Analysis') {
     steps {
         withSonarQubeEnv('MySonarQube') {
             sh 'mvn clean verify sonar:sonar'
+            echo ' SonarQube Analysis Done '
         }
     }
 }
@@ -22,6 +23,7 @@ stage('SonarQube Analysis') {
                 script {
                    
                     sh "docker run -d --name petclinic -p 8082:8080 ${IMAGE_NAME}:${IMAGE_TAG}"
+                    echo 'Run Container Done'
                 }
             }
         }
