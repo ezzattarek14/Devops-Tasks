@@ -60,9 +60,11 @@ spec:
   selector:
     app: nexus
   ports:
+    - name: http 
     - port: 8081
       targetPort: 8081
       nodePort: 30881
+    - name: repo
     - port: 8083
       targetPort: 8083
       nodePort: 30883
