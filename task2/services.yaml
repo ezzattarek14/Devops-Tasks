@@ -55,16 +55,18 @@ apiVersion: v1
 kind: Service
 metadata:
   name: nexus
+  namespace: monitoring
 spec:
   type: NodePort
   selector:
     app: nexus
   ports:
-    - name: http 
-    - port: 8081
-      targetPort: 8081
-      nodePort: 30881
-    - name: repo
-    - port: 8083
+    - name: nexus-http    # 👈 service port name
+      port: 8081          # 👈 service port
+      targetPort: 8081    # 👈 forwards to containerPort
+      nodePort: 30881     # 👈 externally accessible
+    - name: nexus-repo
+      port: 8083
       targetPort: 8083
       nodePort: 30883
+
